@@ -1,4 +1,4 @@
-package neuralnetwork;
+package com.swehorison.neuralnetwork.neuralnetwork;
 
 public class ActivationFunctions {
     public static double sigmoidRough(double input) {

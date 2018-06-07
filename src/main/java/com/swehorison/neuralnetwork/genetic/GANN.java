@@ -1,6 +1,6 @@
-package genetic;
+package com.swehorison.neuralnetwork.genetic;
 
-import neuralnetwork.NeuralNetwork;
+import com.swehorison.neuralnetwork.neuralnetwork.NeuralNetwork;
 
 public class GANN {
     private int maxGenerations;

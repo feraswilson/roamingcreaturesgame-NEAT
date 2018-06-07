@@ -1,4 +1,4 @@
-import neuralnetwork.NeuralNetwork;
+import com.swehorison.neuralnetwork.neuralnetwork.NeuralNetwork;
 import org.junit.Test;
 
 import java.util.Arrays;

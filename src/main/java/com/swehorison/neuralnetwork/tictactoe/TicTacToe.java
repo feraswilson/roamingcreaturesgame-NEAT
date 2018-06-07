@@ -1,4 +1,4 @@
-package tictactoe;
+package com.swehorison.neuralnetwork.tictactoe;
 
 public class TicTacToe {
 

@@ -1,4 +1,4 @@
-package genetic;
+package com.swehorison.neuralnetwork.genetic;
 
 import java.util.SplittableRandom;
 

@@ -1,4 +1,4 @@
-package neuralnetwork;
+package com.swehorison.neuralnetwork.neuralnetwork;
 
 public class NeuralNetworkExample {
     public static void main(String[] args) {

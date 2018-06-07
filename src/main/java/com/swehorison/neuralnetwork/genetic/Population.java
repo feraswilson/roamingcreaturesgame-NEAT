@@ -1,4 +1,4 @@
-package genetic;
+package com.swehorison.neuralnetwork.genetic;
 
 public class Population {
     private final Individual[] individuals;

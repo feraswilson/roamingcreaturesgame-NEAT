@@ -1,9 +1,9 @@
-package tictactoe;
+package com.swehorison.neuralnetwork.tictactoe;
 
-import genetic.FitnessFunction;
-import genetic.GANN;
-import genetic.Individual;
-import neuralnetwork.NeuralNetwork;
+import com.swehorison.neuralnetwork.genetic.FitnessFunction;
+import com.swehorison.neuralnetwork.genetic.GANN;
+import com.swehorison.neuralnetwork.genetic.Individual;
+import com.swehorison.neuralnetwork.neuralnetwork.NeuralNetwork;
 
 import java.util.Arrays;
 import java.util.Scanner;

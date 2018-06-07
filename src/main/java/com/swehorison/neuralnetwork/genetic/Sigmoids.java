@@ -1,4 +1,4 @@
-package genetic;
+package com.swehorison.neuralnetwork.genetic;
 
 /**
  * A bunch of sigmoid function approximations.

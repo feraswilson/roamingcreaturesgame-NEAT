@@ -1,4 +1,4 @@
-package neuralnetwork;
+package com.swehorison.neuralnetwork.neuralnetwork;
 
 import java.util.SplittableRandom;
 
