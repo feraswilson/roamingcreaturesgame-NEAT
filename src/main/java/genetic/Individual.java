@@ -10,39 +10,6 @@ public class Individual {
         this.fitnessCalculation = fitnessCalculation;
     }
 
-    public double getGene(int index) {
-        return genes[index];
-    }
-
-    public void setGene(int index, double value) {
-        genes[index] = value;
-        fitness = null;
-    }
-
-    public int size() {
-        return genes.length;
-    }
-
-    public double getFitness() {
-        if (fitness == null) {
-            fitness = fitnessCalculation.calculate(this);
-        }
-        return fitness;
-    }
-
-    public double[] getGenes() {
-        return genes;
-    }
-
-    @Override
-    public String toString() {
-        String geneString = "";
-        for (int i = 0; i < size(); i++) {
-            geneString += getGene(i) + " ";
-        }
-        return geneString;
-    }
-
     public static Individual getBlankIndividual(FitnessFunction fitnessCalculation, int geneLength) {
         return new Individual(new double[geneLength], fitnessCalculation);
     }
@@ -66,11 +33,45 @@ public class Individual {
         return new Individual(genes, fitnessCalculation);
     }
 
+    public double getGene(int index) {
+        return genes[index];
+    }
+
+    public void setGene(int index, double value) {
+        genes[index] = value;
+        fitness = null;
+    }
+
+    public int size() {
+        return genes.length;
+    }
+
+    public double getFitness() {
+        if (fitness == null) {
+            fitness = fitnessCalculation.calculate(this);
+        }
+        return fitness;
+    }
+
     /**
      * Set fitness manually. Should only be used when traning is done using the a real simulation.
+     *
      * @param fitness value to set
      */
     public void setFitness(Double fitness) {
         this.fitness = fitness;
+    }
+
+    public double[] getGenes() {
+        return genes;
+    }
+
+    @Override
+    public String toString() {
+        String geneString = "";
+        for (int i = 0; i < size(); i++) {
+            geneString += getGene(i) + " ";
+        }
+        return geneString;
     }
 }

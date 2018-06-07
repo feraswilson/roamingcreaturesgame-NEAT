@@ -3,16 +3,16 @@ package genetic;
 import java.util.SplittableRandom;
 
 public class Algorithm {
-	public static volatile double crossoverRate = 0.5;
+    public static volatile double crossoverRate = 0.5;
     public static volatile double mutationRate = 0.01;
-    private static boolean elitism = true;
     public static SplittableRandom random = new SplittableRandom();
+    private static boolean elitism = true;
     private static int tournamentSelectionSize = -1;
 
     // Evolve a population
     public static Population evolvePopulation(Population population) {
         // Set tournament size if not set
-        if(tournamentSelectionSize == -1) {
+        if (tournamentSelectionSize == -1) {
             tournamentSelectionSize = (int) Math.ceil(population.size() * 0.05) - 1;
         }
 
@@ -40,8 +40,7 @@ public class Algorithm {
                 Individual indiv2 = tournamentSelection(population);
                 Individual newIndiv = crossover(indiv1, indiv2, population.getFitnessFunction());
                 newPopulation.saveIndividual(i, newIndiv);
-            }
-            else {
+            } else {
                 newPopulation.saveIndividual(i, population.getIndividual(i));
             }
         }
@@ -62,23 +61,23 @@ public class Algorithm {
     // Mutate an individual
     private static void mutate(Individual indiv) {
         // Loop through genes
-  //      for (int i = 0; i < indiv.size(); i++) {
+        //      for (int i = 0; i < indiv.size(); i++) {
 
-            int i = (int) (indiv.size() * Algorithm.random.nextDouble());
-           if (Algorithm.random.nextDouble() <= mutationRate) {
-                // Create random gene
-                double gene = (double) Algorithm.random.nextDouble() + Algorithm.random.nextInt(40) - 20;
-                indiv.setGene(i, gene);
+        int i = (int) (indiv.size() * Algorithm.random.nextDouble());
+        if (Algorithm.random.nextDouble() <= mutationRate) {
+            // Create random gene
+            double gene = (double) Algorithm.random.nextDouble() + Algorithm.random.nextInt(40) - 20;
+            indiv.setGene(i, gene);
 
-            }
-       // }
+        }
+        // }
     }
 
     // Select the best among a few random individuals
     private static Individual tournamentSelection(Population population) {
         Individual fittest = population.getIndividual(random.nextInt(population.size()));
 
-        for(int i=0; i<tournamentSelectionSize; i++) {
+        for (int i = 0; i < tournamentSelectionSize; i++) {
             Individual competitor = population.getIndividual(random.nextInt(population.size()));
 
             if (competitor.getFitness() > fittest.getFitness()) {

@@ -35,8 +35,8 @@ public class GANN {
             currentGeneration++;
             currentFitness = population.getFittest().getFitness();
         }
-       // currentGeneration = -1;
-      //  currentFitness = -1;
+        // currentGeneration = -1;
+        //  currentFitness = -1;
     }
 
     /**

@@ -7,8 +7,8 @@ import static org.junit.Assert.assertTrue;
 
 public class NeuralNetworkTest {
     @Test
-    public void testSpecificXor(){
-        NeuralNetwork network = new NeuralNetwork(2, 1,3, 1);
+    public void testSpecificXor() {
+        NeuralNetwork network = new NeuralNetwork(2, 1, 3, 1);
         double[] weights = new double[]{9.080264, -6.1803293, -4.3031797, 1.4238648, -6.7579184, -6.1845775, 2.9604888, -4.316061, -6.7640543, -7.090659, 15.150352, -5.6909485, -11.044768};
 
         System.out.println("0 xor 0 = " + Arrays.toString(network.compute(weights, new double[]{0, 0})));

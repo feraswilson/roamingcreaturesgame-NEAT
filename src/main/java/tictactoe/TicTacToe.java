@@ -8,6 +8,15 @@ public class TicTacToe {
         board = new Board();
     }
 
+    public static void main(String[] args) {
+        TicTacToe ticTacToe = new TicTacToe();
+        System.out.println(ticTacToe.placeTick(0, 0, 1));
+        System.out.println(ticTacToe.placeTick(1, 0, 1));
+        System.out.println(ticTacToe.placeTick(2, 0, 1));
+
+
+    }
+
     public Board getBoard() {
         return board;
     }
@@ -19,10 +28,9 @@ public class TicTacToe {
     }
 
     private int checkWin() {
-        if(checkPlayerOne()) {
+        if (checkPlayerOne()) {
             return 0;
-        }
-        else if(checkPlayerTwo()) {
+        } else if (checkPlayerTwo()) {
             return 1;
         }
 
@@ -113,37 +121,6 @@ public class TicTacToe {
         return board.getBoard()[placeX][placeY] == -1;
     }
 
-
-    public class Board {
-        private int[][] board = new int[][]{
-                {-1, -1, -1},
-                {-1, -1, -1},
-                {-1, -1, -1}
-        };
-
-        public void placeTick(int x, int y, int playerId) {
-            if(this.board[x][y] == -1) {
-                this.board[x][y] = playerId;
-            }
-            else {
-                throw new IllegalArgumentException("Already occupied");
-            }
-        }
-
-        public int[][] getBoard() {
-            return board;
-        }
-    }
-
-    public static void main(String[] args) {
-        TicTacToe ticTacToe = new TicTacToe();
-        System.out.println(ticTacToe.placeTick(0,0, 1));
-        System.out.println(ticTacToe.placeTick(1,0, 1));
-        System.out.println(ticTacToe.placeTick(2,0, 1));
-
-
-    }
-
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -153,5 +130,25 @@ public class TicTacToe {
         sb.append("| " + board.getBoard()[2][0] + " | " + board.getBoard()[2][1] + " | " + board.getBoard()[2][2] + " | \n");
         sb.append("----------------");
         return sb.toString();
+    }
+
+    public class Board {
+        private int[][] board = new int[][]{
+                {-1, -1, -1},
+                {-1, -1, -1},
+                {-1, -1, -1}
+        };
+
+        public void placeTick(int x, int y, int playerId) {
+            if (this.board[x][y] == -1) {
+                this.board[x][y] = playerId;
+            } else {
+                throw new IllegalArgumentException("Already occupied");
+            }
+        }
+
+        public int[][] getBoard() {
+            return board;
+        }
     }
 }

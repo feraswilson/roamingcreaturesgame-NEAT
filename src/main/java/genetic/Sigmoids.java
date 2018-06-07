@@ -2,7 +2,7 @@ package genetic;
 
 /**
  * A bunch of sigmoid function approximations.
- *
+ * <p>
  * atan(pi*x/2)*2/pi
  * atan(x)
  * 1/(1+exp(-x))
@@ -85,8 +85,14 @@ public final class Sigmoids {
     public static double sigmoidFeras(double x) {
         x = -x;
         x = 1d + x / 256d;
-        x *= x; x *= x; x *= x; x *= x;
-        x *= x; x *= x; x *= x; x *= x;
+        x *= x;
+        x *= x;
+        x *= x;
+        x *= x;
+        x *= x;
+        x *= x;
+        x *= x;
+        x *= x;
         return (1 / (1 + x));
     }
 }
