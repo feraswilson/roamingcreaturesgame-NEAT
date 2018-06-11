@@ -63,4 +63,8 @@ public class GANN {
     public double[] run(double[] weights, double[] inputs) {
         return neuralNetwork.compute(weights, inputs);
     }
+
+    public int getMaxGenerations() {
+        return maxGenerations;
+    }
 }
