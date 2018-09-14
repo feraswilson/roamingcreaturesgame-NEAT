@@ -23,4 +23,36 @@ public class NeuralNetworkTest {
         assertTrue(Math.abs(network.compute(weights, new double[]{1, 1})[0] - 0) < allowedError);
     }
 
+    @Test
+    public void testSpecificOr() {
+        NeuralNetwork network = new NeuralNetwork(2, 1, 3, 1);
+
+        // System.out.println(neuralNetwork.compute(bestWeights, new double[]{1, 1})[0]);
+
+        double[] bestWeights2 = network.getBestWeightsForAFunction(() -> {
+
+            double[][][] expected = new double[][][]{
+                    {new double[]{0, 0}, new double[]{0}},
+                    {new double[]{0, 1}, new double[]{1}},
+                    {new double[]{1, 0}, new double[]{1}},
+                    {new double[]{1, 1}, new double[]{1}}
+            };
+
+            return expected;
+        });
+
+
+        System.out.println("0 or 0 = " + Arrays.toString(network.compute(bestWeights2, new double[]{0, 0})));
+        System.out.println("0 or 1 = " + Arrays.toString(network.compute(bestWeights2, new double[]{0, 1})));
+        System.out.println("1 or 0 = " + Arrays.toString(network.compute(bestWeights2, new double[]{1, 0})));
+        System.out.println("1 or 1 = " + Arrays.toString(network.compute(bestWeights2, new double[]{1, 1})));
+
+        double allowedError = 0.02;
+        assertTrue(Math.abs(network.compute(bestWeights2, new double[]{0, 0})[0] - 0) < allowedError);
+        assertTrue(Math.abs(network.compute(bestWeights2, new double[]{1, 0})[0] - 1) < allowedError);
+        assertTrue(Math.abs(network.compute(bestWeights2, new double[]{0, 1})[0] - 1) < allowedError);
+        assertTrue(Math.abs(network.compute(bestWeights2, new double[]{1, 1})[0] - 1) < allowedError);
+    }
+
+
 }

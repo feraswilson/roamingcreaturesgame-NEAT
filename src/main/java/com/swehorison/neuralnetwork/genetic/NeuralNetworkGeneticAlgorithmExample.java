@@ -41,6 +41,7 @@ public class NeuralNetworkGeneticAlgorithmExample {
         }
         System.out.print("}");
 
+        System.out.println();
 
         System.out.println(gann.run(genes, new double[]{0, 0})[0]);
         System.out.println(gann.run(genes, new double[]{0, 1})[0]);

@@ -2,6 +2,10 @@ package com.swehorison.neuralnetwork.neuralnetwork;
 
 import java.util.SplittableRandom;
 
+/**
+ * This class (@class NeuralNetwork) represents an artificial neural network which contains an input layer, atleast
+ * one hidden layer and an output layer.
+ */
 public class NeuralNetwork {
 
     private Layer inputLayer;
@@ -55,13 +59,13 @@ public class NeuralNetwork {
         }
 
         for (int i = 1; i < hiddenLayers.length; i++) {
+            double totalWeights = 0;
+            for (int j = 0; j < hiddenLayers[i - 1].getNeurons().length; j++) {
+                totalWeights += hiddenLayers[i - 1].getNeurons()[j] * weights[weightPosition++];
+            }
+
             for (int hln = 0; hln < hiddenLayers[i].getNeurons().length; hln++) {
                 double bias = weights[weightPosition++];
-
-                double totalWeights = 0;
-                for (int j = 0; j < hiddenLayers[i - 1].getNeurons().length; j++) {
-                    totalWeights += hiddenLayers[i - 1].getNeurons()[j] * weights[weightPosition++];
-                }
 
 
                 hiddenLayers[i].getNeurons()[hln] = ActivationFunctions.sigmoidRough(bias + totalWeights);
@@ -119,6 +123,18 @@ public class NeuralNetwork {
         return bestWeights;
     }
 
+    /**
+     * Example:
+     * double[][][] expected = new double[][][]{
+     * {new double[]{0, 0}, new double[]{0}},
+     * {new double[]{0, 1}, new double[]{1}},
+     * {new double[]{1, 0}, new double[]{1}},
+     * {new double[]{1, 1}, new double[]{1}}
+     * };
+     *
+     * @param traningFunction to use to train the network
+     * @return best weights
+     */
     public double[] getBestWeightsForAFunction(TraningFunction traningFunction) {
         int amountOfWeights = hiddenLayerNeuronSize * (traningFunction.getExpectedInputOutputs()[0][0].length + 1) + (hiddenLayers.length - 1) * hiddenLayerNeuronSize * (hiddenLayerNeuronSize + 1) + traningFunction.getExpectedInputOutputs()[0][1].length * (hiddenLayerNeuronSize + 1);
         double bestError = Double.MAX_VALUE;
@@ -144,6 +160,11 @@ public class NeuralNetwork {
         return bestWeights;
     }
 
+    /**
+     * Get the amount of weights in the neural network.
+     *
+     * @return weight size of the neural network.
+     */
     public int getWeightSize() {
         return this.amountOfWeights;
     }
