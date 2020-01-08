@@ -1,6 +1,9 @@
 package com.swehorison.neuralnetwork.genetic;
 
 import java.util.SplittableRandom;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 public class Algorithm {
     public static volatile double crossoverRate = 0.5;
@@ -34,15 +37,51 @@ public class Algorithm {
         // Loop over the population size and create new individuals with
         // crossover
 
-        for (int i = elitismOffset; i < population.size(); i++) {
-            if (Algorithm.random.nextDouble() <= crossoverRate) {
-                Individual indiv1 = tournamentSelection(population);
-                Individual indiv2 = tournamentSelection(population);
-                Individual newIndiv = crossover(indiv1, indiv2, population.getFitnessFunction());
-                newPopulation.saveIndividual(i, newIndiv);
-            } else {
-                newPopulation.saveIndividual(i, population.getIndividual(i));
+        ExecutorService executorService = Executors.newWorkStealingPool(8);
+
+        Runnable firstHalf = new Runnable() {
+            @Override
+            public void run() {
+                for (int i = elitismOffset; i < population.size() / 2; i++) {
+                    if (Algorithm.random.nextDouble() <= crossoverRate) {
+                        Individual indiv1 = tournamentSelection(population);
+                        Individual indiv2 = tournamentSelection(population);
+                        Individual newIndiv = crossover(indiv1, indiv2, population.getFitnessFunction());
+                        newPopulation.saveIndividual(i, newIndiv);
+                    } else {
+                        newPopulation.saveIndividual(i, Individual.getRandomizedIndividual(newPopulation.getFitnessFunction(), newPopulation.getGeneLength()));
+                    }
+                }
             }
+        };
+
+        Runnable secondHalf = new Runnable() {
+            @Override
+            public void run() {
+                for (int i = elitismOffset + (population.size() / 2) - 1; i < population.size(); i++) {
+                    if (Algorithm.random.nextDouble() <= crossoverRate) {
+                        Individual indiv1 = tournamentSelection(population);
+                        Individual indiv2 = tournamentSelection(population);
+                        Individual newIndiv = crossover(indiv1, indiv2, population.getFitnessFunction());
+                        newPopulation.saveIndividual(i, newIndiv);
+                    } else {
+                        newPopulation.saveIndividual(i, Individual.getRandomizedIndividual(newPopulation.getFitnessFunction(), newPopulation.getGeneLength()));
+                    }
+                }
+            }
+        };
+
+        executorService.execute(firstHalf);
+        executorService.execute(secondHalf);
+
+        executorService.shutdown();
+        try {
+            if (!executorService.awaitTermination(20, TimeUnit.SECONDS)) {
+                executorService.shutdownNow();
+            }
+            ;
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
 
         // Mutate population

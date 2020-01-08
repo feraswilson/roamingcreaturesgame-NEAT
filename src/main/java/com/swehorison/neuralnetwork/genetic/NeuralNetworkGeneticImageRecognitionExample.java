@@ -7,6 +7,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.SplittableRandom;
 
 public class NeuralNetworkGeneticImageRecognitionExample {
     public NeuralNetworkGeneticImageRecognitionExample() {
@@ -26,12 +27,15 @@ public class NeuralNetworkGeneticImageRecognitionExample {
         BufferedImage cityImage2 = readImage(classLoader.getResource("city2.jpg").getFile());
         double[] cityDoubles2 = convertToNeuralNetworkArray(cityImage2);
 
-        NeuralNetwork neuralNetwork = new NeuralNetwork(676, 1, 20, 2);
+        NeuralNetwork neuralNetwork = new NeuralNetwork(169, 5, 20, 2);
 
-        GANN gann = new GANN(neuralNetwork, 800, 0.5, 0.2);
+        GANN gann = new GANN(neuralNetwork, 1000, 0.4, 0.1);
 
+        SplittableRandom random = new SplittableRandom();
 
-        gann.initiatePopulation(30, individual -> {
+        long timeStart = System.currentTimeMillis();
+        gann.initiatePopulation(800, individual -> {
+
             double fitness = 0;
             double[] output = neuralNetwork.compute(individual.getGenes(), carDoubles);
             fitness += output[0];
@@ -48,12 +52,15 @@ public class NeuralNetworkGeneticImageRecognitionExample {
             neuralNetwork.compute(individual.getGenes(), cityDoubles2);
             fitness += output[1];
             fitness += 1 - output[0];
-
             return fitness;
+
+
+
         });
 
         gann.train();
-
+        long timeEnd = System.currentTimeMillis();
+        System.out.println("Difference: " + (timeEnd - timeStart));
 
         double[] genes = gann.getCurrentPopulation().getFittest().getGenes();
         System.out.println("new double[] {");
@@ -73,14 +80,15 @@ public class NeuralNetworkGeneticImageRecognitionExample {
         BufferedImage mercedesImage = readImage(classLoader.getResource("mercedes.jpg").getFile());
         double[] mercedesDoubles = convertToNeuralNetworkArray(mercedesImage);
 
-        System.out.println("Not trained image (Mercedes):");
+        System.out.println("----");
+        System.out.println("Checking (Mercedes):");
         output = gann.run(genes, mercedesDoubles);
         System.out.println("Car: " + output[0] + " City: " + output[1]);
 
         BufferedImage cityTestImage = readImage(classLoader.getResource("citytest.jpg").getFile());
         double[] cityTestDoubles = convertToNeuralNetworkArray(cityTestImage);
 
-        System.out.println("Not trained image (City):");
+        System.out.println("Checking (City):");
         output = gann.run(genes, cityTestDoubles);
         System.out.println("Car: " + output[0] + " City: " + output[1]);
     }
@@ -89,12 +97,13 @@ public class NeuralNetworkGeneticImageRecognitionExample {
         new NeuralNetworkGeneticImageRecognitionExample();
     }
 
+
     private static double[] convertToNeuralNetworkArray(BufferedImage image) {
         //get image width and height
         int width = image.getWidth();
         int height = image.getHeight();
 
-        double[] array = new double[676];
+        double[] array = new double[169];
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
                 int p = image.getRGB(x, y);
@@ -141,7 +150,7 @@ public class NeuralNetworkGeneticImageRecognitionExample {
             }
         }
 
-        BufferedImage newImage = getScaledImage(img, 26, 26);
+        BufferedImage newImage = getScaledImage(img, 13, 13);
 
         return newImage;
     }

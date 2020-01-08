@@ -13,6 +13,7 @@ public class NeuralNetwork {
     private int hiddenLayerNeuronSize;
     private Layer outputLayer;
     private int amountOfWeights;
+    private double[] weights;
 
 
     /**
@@ -24,6 +25,18 @@ public class NeuralNetwork {
      * @param outputLayerSize    defines the amount of output neurons.
      */
     public NeuralNetwork(int inputLayerSize, int hiddenLayerSize, int hiddenLayerNeurons, int outputLayerSize) {
+        this(inputLayerSize, hiddenLayerSize, hiddenLayerNeurons, outputLayerSize, null);
+    }
+
+    /**
+     * Initialize neural network.
+     *
+     * @param inputLayerSize     defines the amount of inputs.
+     * @param hiddenLayerSize    defines the amount of hidden layers.
+     * @param hiddenLayerNeurons defines the amount of neurons in each hidden layer.
+     * @param outputLayerSize    defines the amount of output neurons.
+     */
+    public NeuralNetwork(int inputLayerSize, int hiddenLayerSize, int hiddenLayerNeurons, int outputLayerSize, double[] weights) {
         inputLayer = new Layer(inputLayerSize);
         hiddenLayers = new Layer[hiddenLayerSize];
         this.hiddenLayerNeuronSize = hiddenLayerNeurons;
@@ -33,6 +46,11 @@ public class NeuralNetwork {
         outputLayer = new Layer(outputLayerSize);
 
         this.amountOfWeights = hiddenLayerNeuronSize * (inputLayerSize + 1) + (hiddenLayers.length - 1) * hiddenLayerNeuronSize * (hiddenLayerNeuronSize + 1) + outputLayerSize * (hiddenLayerNeuronSize + 1);
+        if (weights != null) {
+            this.weights = weights;
+        } else {
+            this.weights = new double[amountOfWeights];
+        }
     }
 
     /**
@@ -55,7 +73,7 @@ public class NeuralNetwork {
                 totalWeights += inputLayer.getNeurons()[j] * weights[weightPosition++];
             }
 
-            hiddenLayers[0].getNeurons()[hln] = ActivationFunctions.sigmoidRough(bias + totalWeights);
+            hiddenLayers[0].getNeurons()[hln] = ActivationFunctions.elu(bias + totalWeights);
         }
 
         for (int i = 1; i < hiddenLayers.length; i++) {
@@ -68,7 +86,7 @@ public class NeuralNetwork {
                 double bias = weights[weightPosition++];
 
 
-                hiddenLayers[i].getNeurons()[hln] = ActivationFunctions.sigmoidRough(bias + totalWeights);
+                hiddenLayers[i].getNeurons()[hln] = ActivationFunctions.elu(bias + totalWeights);
             }
         }
 
@@ -81,12 +99,53 @@ public class NeuralNetwork {
             }
 
             outputLayer.getNeurons()[i] = ActivationFunctions.sigmoidRough(bias + totalWeights);
+            //ActivationFunctions.softmax(outputLayer);
         }
 
         return outputLayer.getNeurons();
     }
+    /*
+     */
+
+    /**
+     * This method adjust weigths considering error backpropagation. The desired
+     * output is compared with the last network output and weights are adjusted
+     * using the choosen learn rate.
+     *
+     * @param desiredOutput desired output for the last given pattern
+     *//*
+    public void backpropagation(double[] desiredOutput) {
+
+        int nOutput = this.outputLayer.neurons.length;
+        int nHidden = this.hiddenLayerNeuronSize;
+        double[] output = new double[this.outputLayer.neurons.length];
+
+        double[] errorL2 = new double[nOutput + 1];
+        double[] errorL1 = new double[nHidden + 1];
+        double Esum = 0.0;
+
+        for (int i = 1; i <= nOutput; i++) {
+            errorL2[i] = output[i] * (1.0 - output[i]) * (desiredOutput[i - 1] - output[i]);
+        }
 
 
+        for (int i = 0; i <= nHidden; i++) {  // Layer 1 error gradient
+            for (int j = 1; j <= nOutput; j++) {
+                Esum += weigthL2[j][i] * errorL2[j];
+            }
+
+            errorL1[i] = hidden[i] * (1.0 - hidden[i]) * Esum;
+            Esum = 0.0;
+        }
+
+        for (int j = 1; j <= nOutput; j++)
+            for (int i = 0; i <= nHidden; i++)
+                weigthL2[j][i] += learningRate * errorL2[j] * hidden[i];
+
+        for (int j = 1; j <= nHidden; j++)
+            for (int i = 0; i <= nInputs; i++)
+                weightL1[j][i] += learningRate * errorL1[j] * input[i];
+    }*/
     public double[] getRandomizedWeights(int weightSize) {
         SplittableRandom random = new SplittableRandom();
 
@@ -140,7 +199,7 @@ public class NeuralNetwork {
         double bestError = Double.MAX_VALUE;
         double[] bestWeights = new double[0];
 
-        for (int i = 0; i < 1000000; i++) {
+        for (int i = 0; i < 100; i++) {
             double[] randomizedWeights = getRandomizedWeights(amountOfWeights);
             double error = 0;
 
@@ -155,6 +214,7 @@ public class NeuralNetwork {
                 bestError = error;
                 bestWeights = randomizedWeights;
             }
+            System.out.println("One cycle!");
         }
 
         return bestWeights;

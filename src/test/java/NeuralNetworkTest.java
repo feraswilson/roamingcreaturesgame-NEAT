@@ -47,7 +47,7 @@ public class NeuralNetworkTest {
         System.out.println("1 or 0 = " + Arrays.toString(network.compute(bestWeights2, new double[]{1, 0})));
         System.out.println("1 or 1 = " + Arrays.toString(network.compute(bestWeights2, new double[]{1, 1})));
 
-        double allowedError = 0.02;
+        double allowedError = 0.05;
         assertTrue(Math.abs(network.compute(bestWeights2, new double[]{0, 0})[0] - 0) < allowedError);
         assertTrue(Math.abs(network.compute(bestWeights2, new double[]{1, 0})[0] - 1) < allowedError);
         assertTrue(Math.abs(network.compute(bestWeights2, new double[]{0, 1})[0] - 1) < allowedError);
