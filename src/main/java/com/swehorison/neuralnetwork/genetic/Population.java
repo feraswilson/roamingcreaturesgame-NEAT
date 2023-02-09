@@ -31,13 +31,13 @@ public class Population {
                     double[] currentGenes = new double[geneLength];
                     System.arraycopy(genes, 0, currentGenes, 0, genes.length);
                     for (int j = 0; j < currentGenes.length; j++) {
-                        if (currentGenes[i] == 20) {
-                            currentGenes[i] -= Algorithm.random.nextDouble() * 4;
+                        if (currentGenes[j] == 20) {
+                            currentGenes[j] -= Algorithm.random.nextDouble() * 4;
                             ;
-                        } else if (currentGenes[i] == -20) {
-                            currentGenes[i] += Algorithm.random.nextDouble() * 4;
-                        } else if (currentGenes[i] > -17 && currentGenes[i] < 17) {
-                            currentGenes[i] += Algorithm.random.nextDouble() * 6 - 6;
+                        } else if (currentGenes[j] == -20) {
+                            currentGenes[j] += Algorithm.random.nextDouble() * 4;
+                        } else if (currentGenes[j] > -17 && currentGenes[j] < 17) {
+                            currentGenes[j] += Algorithm.random.nextDouble() * 6 - 6;
                         }
                     }
                     individuals[i] = new Individual(genes, fitnessCalculation);

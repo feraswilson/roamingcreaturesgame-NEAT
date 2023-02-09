@@ -15,11 +15,11 @@ public class OrGateExample {
 
         NeuralNetwork neuralNetwork = new NeuralNetwork(2, 1, 2, 1);
 
-        GANN gann = new GANN(neuralNetwork, 5000, 0.4, 0.1);
+        GANN gann = new GANN(neuralNetwork, 50, 0.95, 0.1);
 
         SplittableRandom random = new SplittableRandom();
 
-        gann.initiatePopulation(100, individual -> {
+        gann.initiatePopulation(60, individual -> {
 
             double fitness = 0;
             double[] output = neuralNetwork.compute(individual.getGenes(), new double[]{0, 0});
@@ -32,7 +32,7 @@ public class OrGateExample {
             fitness += output[0];
 
             neuralNetwork.compute(individual.getGenes(), new double[]{1, 1});
-            fitness += output[0];
+            fitness += 1 - output[0];
             return fitness;
 
 
