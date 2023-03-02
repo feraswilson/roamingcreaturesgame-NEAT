@@ -15,7 +15,7 @@ public class OrGateExample {
 
         NeuralNetwork neuralNetwork = new NeuralNetwork(2, 1, 2, 1);
 
-        GANN gann = new GANN(neuralNetwork, 50, 0.95, 0.1);
+        GANN gann = new GANN(neuralNetwork, 500, 0.95, 0.1);
 
         SplittableRandom random = new SplittableRandom();
 

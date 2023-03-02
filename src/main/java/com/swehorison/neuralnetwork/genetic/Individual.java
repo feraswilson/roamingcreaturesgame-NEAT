@@ -24,10 +24,10 @@ public class Individual {
         return new Individual(genes, fitnessCalculation);
     }
 
-    public static Individual getCrossoverIndividual(Individual individual1, Individual individual2, FitnessFunction fitnessCalculation, double crossoverRate) {
+    public static Individual getCrossoverIndividual(Individual individual1, Individual individual2, FitnessFunction fitnessCalculation) {
         int length = individual1.getGenes().length;
         double[] genes = new double[length];
-        int splice = (int) (crossoverRate * length);
+        int splice = (int) (0.5 * length);
         System.arraycopy(individual1.getGenes(), 0, genes, 0, splice);
         System.arraycopy(individual2.getGenes(), splice, genes, splice, length - splice);
         return new Individual(genes, fitnessCalculation);

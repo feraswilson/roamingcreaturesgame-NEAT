@@ -94,7 +94,7 @@ public class Algorithm {
 
     // Crossover individuals
     private static Individual crossover(Individual individual1, Individual individual2, FitnessFunction fitnessCalculation) {
-        return Individual.getCrossoverIndividual(individual1, individual2, fitnessCalculation, random.nextDouble());
+        return Individual.getCrossoverIndividual(individual1, individual2, fitnessCalculation);
     }
 
     // Mutate an individual
